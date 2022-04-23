@@ -10,7 +10,6 @@ const Todo = ({ todo, task, setTask, setEdit, index, setTodos, todos }) => {
   }
 
   const handleDelete = () => {
-    console.log(">>>>>>>>>>>>", todos)
     let newTodos = []
     //find which task i need to update
     debugger;
@@ -29,7 +28,7 @@ const Todo = ({ todo, task, setTask, setEdit, index, setTodos, todos }) => {
   return (
     <Box display="flex" alignItems="center" mt={2} justifyContent="space-between" p={2} borderRadius={4} style={{ background: 'blue' }} color="white">
       <Box>
-        {todo}
+        {todo.name}
       </Box>
       <Box color="white">
         <IconButton onClick={handleEdit}>

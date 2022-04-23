@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Typography, TextField, Box, Button } from '@mui/material';
-import Todo from "./Todo"
+import axios from "axios";
+import Todo from "./Todo";
+
 function App() {
   const [task, setTask] = useState("");
   const [todos, setTodos] = useState([]);
@@ -10,10 +12,34 @@ function App() {
     setTask(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const fetchTodo = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:3001/todo");
+      setTodos(data.data);
+    }
+
+    catch (error) {
+      alert("Something went wrong")
+    }
+  }
+
+  useEffect(() => {
+    fetchTodo()
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
     if (!edit) {
-      setTodos([...todos, task])
+      //request to server
+      const newTodo = {
+        name: task,
+        id: Math.random()
+      }
+
+      const { data } = await axios.post("http://localhost:3001/todo", newTodo);
+      console.log(">>>>>>>data", data.data);
+
+      setTodos([...todos, newTodo])
     } else {
       let newTodos = []
       //find which task i need to update
